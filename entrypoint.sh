@@ -14,8 +14,8 @@ if grep 'key not found' ssl.cer; then
 else
     wrangler kv:key get key -n $CF_KV_NAMESPACE_ID > ssl.key
 fi
-envsubst < /xray/config.json > /etc/xray/config.json
+envsubst < /xray/config.json > /xray/result.json
 cd /xray/client
 for f in $(ls -1 *.json); do envsubst < $f > /var/www/$f; done
 nginx
-xray -c /etc/xray/config.json
+xray -c /xray/result.json
